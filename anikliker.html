@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Антикликер</title>
+    <style>
+body{
+    margin: 0;
+    padding: 0;
+    background: rgb(110, 110, 238);
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game
+{
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+
+}
+.stat
+{
+   display: flex; 
+   justify-content: space-around;
+   margin: 15px 0;
+   background: #468de3;
+   padding: 10px;
+   border-radius: 8px;
+   font-weight: bold;
+
+}
+#runButton
+{
+    padding: 15px 30px;
+    font-size: 20px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+}
+.controls button
+{
+background:  #468de3;
+padding: 10px 20px;
+    font-size: 20px;
+    background:#468de3 ;
+    color: white;
+    border: none;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.message
+{
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="game">
+<h1>Поймай кнопку</h1>
+<div class="stat">
+    <div>Поймано: <span id="score">0</span></div>
+    <div>Время: <span id="timer">30</span>с</div>
+</div>
+
+<button id="runButton" onclick="Butt()">Поймай меня!!!</button>
+<div class="controls">
+<button  onclick="start()">начать</button>
+<button  onclick="reset()">сбросить игру</button>
+</div>
+<div class id="message" class="message"></div>
+</div>
+<script>
+    let score=0;
+    let timeLeft=30;
+    let gameActive=false;
+    let gameTimer;
+
+    const runBut=document.getElementById("runButton");
+    const scoreElement=document.getElementById("score");
+    const timerElement=document.getElementById("timer");
+    const messageElement=document.getElementById("message");
+
+    function Butt()
+    {
+        if(!gameActive)return;
+       score=score+1;
+       scoreElement.textContent=score;
+       runBut.style.background="green";
+       runBut.textContent="Поймал";
+
+       setTimeout(function()
+    {
+         runBut.style.background="red";
+       runBut.textContent="Поймай меня!!!";
+    },300);
+move();
+
+    }
+function move()
+{
+     if(!gameActive) return;
+     const container=document.querySelector(".game")
+     const maxX=container.clientWidth-100;
+       const maxY=container.clientHeight-100;
+   const newX=Math.random()*maxX;
+        const newY=Math.random()*maxY;
+
+        runBut.style.left=newX+"px";
+        runBut.style.top=newY+"px";
+        runBut.style.background="orange";
+    } 
+
+    function runAway()
+    {
+     if(!gameActive) return;
+     move();  
+    }
+        
+function start()
+    {
+        if(gameActive)return;
+gameActive=true;
+score=0;
+timeLeft=30;
+scoreElement.textContent=score;
+timerElement.textContent=timeLeft;
+
+messageElement.textContent="игра началась";
+messageElement.style,background="#d4edda";
+messageElement.style,color="#155724";
+runBut.onmouseover=runAway;
+starttimer();
+
+
+
+    }
+function starttimer()
+{
+gameTimer=setInterval(function()
+{
+timeLeft=timeLeft-1;
+timerElement.textContent=timeLeft;
+if(timeLeft<=10)
+{
+    timerElement.style.color="red";
+}
+if(timeLeft<=0)
+{
+endgame();
+}
+},1000);
+}
+function endgame()
+{
+    gameActive=false;
+    clearInterval(gametimer);
+    runBut.onmouseover=full;
+    messageElement.textContent="время вышло"
+}
+</script>
+
+</body>
+</html>
